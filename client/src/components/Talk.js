@@ -28,9 +28,10 @@ export default class Talk extends React.Component {
 			stayOnBottom: true,
 			showLoadMoreButton: false
 		}
-		this.socket = openSocket("http://localhost:5000", {
-			withCredentials: true,
-		})
+		// this.socket = openSocket("https://famoz.herokuapp.com", {
+		// 	withCredentials: true,
+		// })
+		this.socket = openSocket()
 		this.socket.on(this.chatName(), data=>this.addMessage(data))
 	}
 	chatName = ()=>{
