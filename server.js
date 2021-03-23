@@ -2,6 +2,7 @@ process.env.MONGO_URI="mongodb://ozair_ayaz:ozair_03235146562@cluster0-shard-00-
 process.env.CLOUDINARY_CLOUD_NAME="ozcom";
 process.env.CLOUDINARY_API_KEY="378179385259691";
 process.env.CLOUDINARY_API_SECRET="YFNTkouuzemd1E_utvxZoNZGuqY";
+process.env.ORIGIN="http://localhost:3000"
 const port = process.env.PORT || 5000;
 
 const express = require("express");
@@ -29,7 +30,7 @@ const app = express();
 const http = require('http').createServer(app)
 const io = require('socket.io')(http, {
   cors: {
-    origin: "http://localhost:3000",
+    origin: process.env.ORIGIN,
     methods: ["GET", "POST"],
     credentials: true
   }
@@ -40,7 +41,7 @@ const MongoStore = require("connect-mongo")
 const store = MongoStore.create({mongoUrl: process.env.MONGO_URI})
 
 app.use(cors({
-	origin: 'http://localhost:3000/'
+	origin: process.env.ORIGIN
 }))
 app.use(
 	session({
@@ -104,8 +105,14 @@ myDB(async (client) => {
 	app.use("/chat", chat(chatDB))
 	app.use("/upload", upload(cloudinary))
 	auth(userDB)
-	app.route("/").get((req, res)=>{
-		res.send("Working")
+	// app.route("/").get((req, res)=>{
+	// 	res.send("Working")
+	// })
+	if (process.env.NODE_ENV === 'production') {
+	    app.use(express.static('client/build'));
+	}
+	app.get("*", (req, res)=>{
+		res.redirect("/")
 	})
 
 }).catch((e)=>{

@@ -8,6 +8,7 @@ import Inbox from './components/Inbox'
 import Login from './components/Login'
 import Signup from './components/Signup'
 import Profile from "./components/Profile"
+axios.defaults.withCredentials = true;
 export default withRouter (
   class App extends React.Component {
     constructor(props) {
