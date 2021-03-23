@@ -28,13 +28,14 @@ const user = require("./routes/user")
 const chat = require("./routes/chat")
 const app = express();
 const http = require('http').createServer(app)
-const io = require('socket.io')(http, {
-  cors: {
-    origin: process.env.ORIGIN,
-    methods: ["GET", "POST"],
-    credentials: true
-  }
-})
+const io = require('socket.io')(http)
+// const io = require('socket.io')(http, {
+//   cors: {
+//     origin: process.env.ORIGIN,
+//     methods: ["GET", "POST"],
+//     credentials: true
+//   }
+// })
 // for storig sessions
 const session = require('express-session');
 const MongoStore = require("connect-mongo")
