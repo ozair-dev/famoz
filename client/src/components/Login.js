@@ -31,7 +31,10 @@ export default class Login extends React.Component {
 		this.setState({loggingin: true})
 		axios
 		.post("/user", formData)
-		.then(res=>this.props.updateUser(res.data))
+		.then(res=>{
+			this.props.updateUser(res.data)
+			this.props.history.goBack();
+		})
 		.catch(err=>this.setState({warning: "Invalid username or password!", loggingin: false}))
 	}
 	render() {

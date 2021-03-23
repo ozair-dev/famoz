@@ -1,9 +1,9 @@
 const router = require("express").Router();
 function main(cloudinary){
-	// for uploading a single image(profile pic)
+	// for generating link to low quality images
 	function optimize(url){
 		let imgUrl = url.split("/")
-		imgUrl.splice(6,1,"w_1500,h_1500,c_crop,g_face/q_auto:low")
+		imgUrl.splice(6,1,"q_auto:low")
 		return imgUrl.join("/")
 	}
 	router.post("/", (req, res)=>{
@@ -11,7 +11,9 @@ function main(cloudinary){
 		cloudinary.uploader
 		.upload(image.path, {secure: true})
 		.then(img=>{
-			res.send(optimize(img.url))
+			let imgUrl = img.url.split("/")
+			imgUrl.splice(6,1,"w_1500,h_1500,c_crop,g_face/q_auto:low,w_400,h_400")
+			res.send(imgUrl.join("/"))
 		})
 	})
 	// for uploading one or more pics

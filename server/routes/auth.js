@@ -25,7 +25,7 @@ function main(userDB){
 	passport.deserializeUser((id, done)=>{
 		userDB.findOne({_id: new ObjectID(id)}, (err, user)=>{
 			if(err) return done(null, false);
-			if(user.password) delete user.password;
+			if(user?.password) delete user.password;
 			done(null, user)
 		})
 	})

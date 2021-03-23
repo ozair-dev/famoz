@@ -4,7 +4,6 @@ import axios from 'axios'
 import {HiOutlineCamera} from 'react-icons/hi'
 import {VscLoading} from 'react-icons/vsc'
 import {BiLoaderAlt} from 'react-icons/bi'
-import img from "./saadi.png"
 export default class Signup extends React.Component {
 
 	constructor(props) {
