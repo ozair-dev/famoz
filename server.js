@@ -105,15 +105,15 @@ myDB(async (client) => {
 	app.use("/chat", chat(chatDB))
 	app.use("/upload", upload(cloudinary))
 	auth(userDB)
-	// app.route("/").get((req, res)=>{
-	// 	res.send("Working")
-	// })
-	if (process.env.NODE_ENV === 'production') {
-	    app.use(express.static('client/build'));
-	}
-	app.get("*", (req, res)=>{
-		res.redirect("/")
+	app.route("/").get((req, res)=>{
+		res.send("Working")
 	})
+	// if (process.env.NODE_ENV === 'production') {
+	//     app.use(express.static('client/build'));
+	// }
+	// app.get("*", (req, res)=>{
+	// 	res.redirect("/")
+	// })
 
 }).catch((e)=>{
     app.route('/').get((req, res)=>{
