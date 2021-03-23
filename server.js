@@ -108,12 +108,12 @@ myDB(async (client) => {
 	app.route("/").get((req, res)=>{
 		res.send("Working")
 	})
-	// if (process.env.NODE_ENV === 'production') {
-	//     app.use(express.static('client/build'));
-	// }
-	// app.get("*", (req, res)=>{
-	// 	res.redirect("/")
-	// })
+	if (process.env.NODE_ENV === 'production') {
+	    app.use(express.static('client/build'));
+	}
+	app.get("*", (req, res)=>{
+		res.redirect("/")
+	})
 
 }).catch((e)=>{
     app.route('/').get((req, res)=>{
@@ -122,6 +122,6 @@ myDB(async (client) => {
 
 })
 
-http.listen(5000, ()=>{
+http.listen(port, ()=>{
 	console.log("App is live on the port "+port)
 })
