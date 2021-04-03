@@ -26,9 +26,10 @@ export default class ShowPost extends React.Component {
 			showComments: false,
 			comment: ""
 		}
-		this.socket = openSocket("http://localhost:5000", {
-			withCredentials: true
-		})
+		this.socket = openSocket()
+		// this.socket = openSocket("http://localhost:5000", {
+		// 	withCredentials: true
+		// })
 		this.socket.on(this.props.postData._id, doc=>{
 			let postData = {...this.state.postData};
 			if(postData.post){

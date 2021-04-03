@@ -18,9 +18,10 @@ export default class Post extends React.Component {
 			uploadButtonStyle: "text-purple-600 border border-purple-600 shadow-lg",
 			uploading: false
 		}
-		this.socket = openSocket('http://localhost:5000', {
-			withCredentials: true
-		})
+		this.socket = openSocket()
+		// this.socket = openSocket('http://localhost:5000', {
+		// 	withCredentials: true
+		// })
 	}
 
 	handleCancel = ()=>{

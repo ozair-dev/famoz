@@ -13,9 +13,10 @@ export default class Home extends React.Component {
 			postIndex: 0,
 			showLoadMore: false
 		}
-		this.socket = openSocket("http://localhost:5000", {
-			withCredentials: true
-		})
+		this.socket = openSocket()
+		// this.socket = openSocket("http://localhost:5000", {
+		// 	withCredentials: true
+		// })
 		this.socket.on('new-post', post=>{
 			let posts = [...this.state.posts]
 			if(posts.length){

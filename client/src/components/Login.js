@@ -46,8 +46,8 @@ export default class Login extends React.Component {
 		else{
 			return (
 				<div className="pt-2">
-					<a href="http://localhost:5000/user/auth/google" className="block mx-auto my-2 w-5/6 py-1 border border-purple-400 rounded-md shadow-md"><p className="flex items-center justify-center text-3xl leading-none"><FcGoogle className='-ml-7 mr-2' /><p className="font-mono text-2xl text-gray-600 leading-none">Google</p></p></a>
-					<a href="http://localhost:5000/user/auth/facebook" className="block mx-auto my-2 w-5/6 py-1 border border-purple-400 rounded-md shadow-md"><p className="flex items-center justify-center text-3xl"><AiFillFacebook className='mr-2 text-blue-600' /><p className="font-mono text-2xl text-gray-600">Facebook</p></p></a>
+					<a href="https://ozfam.herokuapp.com/user/auth/google" className="block mx-auto my-2 w-5/6 py-1 border border-purple-400 rounded-md shadow-md"><p className="flex items-center justify-center text-3xl leading-none"><FcGoogle className='-ml-7 mr-2' /><p className="font-mono text-2xl text-gray-600 leading-none">Google</p></p></a>
+					<a href="https://ozfam.herokuapp.com/user/auth/facebook" className="block mx-auto my-2 w-5/6 py-1 border border-purple-400 rounded-md shadow-md"><p className="flex items-center justify-center text-3xl"><AiFillFacebook className='mr-2 text-blue-600' /><p className="font-mono text-2xl text-gray-600">Facebook</p></p></a>
 					<p className="text-center font-mono text-purple-500 mt-4">Or Login With Email Adress!</p>
 					<form onSubmit={this.handleSubmit} className="flex flex-col items-center">
 						<input name="username" type="text" value={this.state.username} onChange={this.handleChange} placeholder="Enter Your username" className="border-b-2 border-purple-400 focus:outline-none focus:border-purple-600 px-2 py-1 text-purple-500 w-5/6 mt-4 placeholder-purple-400 focus:placeholder-purple-500" />

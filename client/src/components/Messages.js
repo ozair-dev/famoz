@@ -6,10 +6,10 @@ export default class Messages extends React.Component {
 
 	constructor(props) {
 		super(props);
-		
-		this.socket = openSocket("http://localhost:5000", {
-			withCredentials: true,
-		})
+		this.socket = openSocket()
+		// this.socket = openSocket("http://localhost:5000", {
+		// 	withCredentials: true,
+		// })
 		this.socket.on(this.props.user._id, data=>{
 			this.updateMessages(data)
 		})
