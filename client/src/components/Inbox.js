@@ -29,7 +29,7 @@ const Inbox = (props) => {
 		    		<Switch>
 			    		<Route path="/inbox" exact render={()=><Messages user={props.user} updateUser={props.updateUser} history={props.history} changeColor={changeColor} /> } />
 			    		<Route path="/inbox/find" render={()=><Find changeColor={changeColor} user={props.user} history={props.history} /> } />
-			    		<Route path='/inbox/:id'render={()=><Talk location={props.location} user={props.user} changeColor={changeColor} /> } />
+			    		<Route path='/inbox/:id'render={()=><Talk location={props.location} history={this.props.history} user={props.user} changeColor={changeColor} /> } />
 			    	</Switch>
 		    	</div>
 		    </div>
