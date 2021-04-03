@@ -136,7 +136,7 @@ export default class Talk extends React.Component {
 
 			let chat = this.state.messages;
 			if(this.state.messages.length){
-				chat = chat.map((message, index)=><Chat key={index} message={message} user={this.props.user} />)
+				chat = chat.map((message, index)=><Chat key={index} message={message} history={this.props.history} user={this.props.user} />)
 			}
 			return (
 				<div style={{height: 'calc(100vh - 5rem)'}} className="flex flex-col justify-between pb-10" >
