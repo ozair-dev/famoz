@@ -59,7 +59,7 @@ export default class Signup extends React.Component {
 			return (
 				<form onSubmit={this.handleSubmit} className="flex flex-col items-center">
 					<div className="mt-2 w-48 border-2 border-purple-400 h-48 rounded-full">
-						<img src={this.state.formData.img} className="h-full w-full rounded-full" />
+						<img src={this.state.formData.img} alt="" className="h-full w-full rounded-full" />
 						{!this.state.uploading? (
 							<label>
 							<input type="file" onChange={this.handleUpload} accept=".jpeg, .png, .jpg" className="hidden" />
@@ -69,11 +69,11 @@ export default class Signup extends React.Component {
 						<VscLoading className="animate-spin text-purple-500 cursor-wait w-8 h-8 p-1 rounded-full bg-white bg-opacity-70 relative bottom-12 left-32" />
 						)}
 					</div>
-					<input name="name" type="text" value={this.state.name} onChange={this.handleChange} placeholder="Enter Your name" className="rounded-full border-2 border-purple-700 focus:outline-none px-4 py-1 text-purple-500 w-5/6 mt-4 placeholder-purple-500" />
-					<input name="username" type="text" value={this.state.username} onChange={this.handleChange} placeholder="Choose a username" className="rounded-full border-2 border-purple-700 focus:outline-none px-4 py-1 text-purple-500 w-5/6 mt-2 placeholder-purple-500" />
-					<input name="password" type="password" value={this.state.password} onChange={this.handleChange} placeholder="Choose a password" className="rounded-full border-2 border-purple-700 focus:outline-none px-4 py-1 text-purple-500 w-5/6 mt-2 placeholder-purple-500" />
+					<input name="name" type="text" value={this.state.name} onChange={this.handleChange} placeholder="Enter Your name" className="border-b-2 border-purple-400 focus:outline-none focus:border-purple-600 px-2 py-1 text-purple-500 w-5/6 mt-4 placeholder-purple-400 focus:placeholder-purple-500" />
+					<input name="username" type="text" value={this.state.username} onChange={this.handleChange} placeholder="Choose a username" className="border-b-2 border-purple-400 focus:border-purple-600 focus:outline-none px-2 py-1 text-purple-500 w-5/6 mt-2 placeholder-purple-400 focus:placeholder-purple-500" />
+					<input name="password" type="password" value={this.state.password} onChange={this.handleChange} placeholder="Choose a password" className="border-b-2 border-purple-400 focus:border-purple-600 focus:outline-none px-2 py-1 text-purple-500 w-5/6 mt-2 placeholder-purple-400 focus:placeholder-purple-500" />
 					<p className="text-red-700 mt-1 w-5/6 text-center">{this.state.warning}</p>
-					<button disabled={this.state.uploading||this.state.signingup} className="flex items-center rounded-full bg-purple-600 text-white py-1 px-4 mt-2 text-xl disabled:cursor-not-allowed">Signup{this.state.signingup && <BiLoaderAlt className='animate-spin ml-1' />}</button>
+					<button disabled={this.state.uploading||this.state.signingup} className="flex items-center rounded-full bg-purple-600 text-white py-1 px-4 mt-2 text-xl disabled:cursor-not-allowed focus:outline-none" >Signup{this.state.signingup && <BiLoaderAlt className='animate-spin ml-1' />}</button>
 
 					<p className="mt-2">Already have an account? <Link to="/login" className="text-purple-900 focus:outline-none">Login</Link></p>
 

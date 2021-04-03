@@ -4,7 +4,8 @@ module.exports = {
   theme: {
     extend: {},
     fontFamily: {
-    	"berkshire":['Berkshire Swash', 'cursive']
+    	"berkshire":['Berkshire Swash', 'cursive'],
+    	'kiwi': ['Kiwi Maru', 'serif']
     }
   },
   variants: {

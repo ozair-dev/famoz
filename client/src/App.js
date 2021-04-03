@@ -8,6 +8,7 @@ import Inbox from './components/Inbox'
 import Login from './components/Login'
 import Signup from './components/Signup'
 import Profile from "./components/Profile"
+import EditProfile from "./components/EditProfile"
 axios.defaults.withCredentials = true;
 export default withRouter (
   class App extends React.Component {
@@ -19,7 +20,8 @@ export default withRouter (
     }
 
     updateUser = (user)=>{
-      this.setState({user: user})
+      if(user?.password) delete user.password;
+      this.setState({user})
     }
 
     componentDidMount(){
@@ -32,14 +34,18 @@ export default withRouter (
       return (
         <div>
           <Navbar />
-          <div className="mt-12 w-screen md:w-1/3 mx-auto ">
-            <Switch>
-              <Route path="/" exact render={()=><Home /> }/>
-              <Route path="/inbox" render={()=><Inbox user={this.state.user} history={this.props.history} location={this.props.location} /> } />
-              <Route path="/login" render={()=><Login history={this.props.history} user={this.state.user} updateUser={this.updateUser} /> } />
-              <Route path="/signup" render={()=><Signup history={this.props.history} user={this.state.user} /> } />
-              <Route path="/profile" render={()=><Profile history={this.props.history} user={this.state.user} updateUser={this.updateUser} /> } />  
-            </Switch>
+          <div style={{minHeight: "calc(100vh - 3rem)"}} className="mt-12 w-screen md:w-1/3 mx-auto">
+            {(this.state.user && !this.state.user.username)? (<EditProfile user={this.state.user} updateUser={this.updateUser} history={this.props.history} />):
+              (
+              <Switch>
+                <Route path="/" exact render={()=><Home user={this.state.user} history={this.props.history} /> }/>
+                <Route path="/inbox" render={()=><Inbox user={this.state.user} updateUser={this.updateUser} history={this.props.history} location={this.props.location} /> } />
+                <Route path="/login" render={()=><Login history={this.props.history} user={this.state.user} updateUser={this.updateUser} /> } />
+                <Route path="/signup" render={()=><Signup history={this.props.history} user={this.state.user} /> } />
+                <Route path="/profile" render={()=><Profile history={this.props.history} location={this.props.location} user={this.state.user} updateUser={this.updateUser} /> } />  
+                <Route path="/edit-profile" render={()=><EditProfile user={this.state.user} updateUser={this.updateUser} history={this.props.history} /> } />
+              </Switch>
+              )}
           </div>
         </div>
       );

@@ -20,16 +20,18 @@ const Inbox = (props) => {
 	if(!props.user) return (<Redirect to="/login" />)
 	else{
 		return (
-		    <div className="fixed top-13 w-full md:w-1/3">
-		    	<div className="w-full flex justify-around bg-purple-600">
+		    <div className="w-full ">
+		    	<div className="fixed top-13 h-8 w-full md:w-1/3 flex justify-around bg-purple-600">
 		    		<Link to='/inbox' className={`w-1/2 text-2xl text-center ${messagesColor} focus:outline-none`}>Messages</Link>
 		    		<Link to='/inbox/find' className={`w-1/2 flex items-center text-2xl justify-center ${findColor}  focus:outline-none`}>Find <BiSearch className="ml-1"/></Link>
 		    	</div>
-		    	<Switch>
-		    		<Route path="/inbox" exact render={()=><Messages user={props.user} history={props.history} changeColor={changeColor} /> } />
-		    		<Route path="/inbox/find" render={()=><Find changeColor={changeColor} user={props.user} history={props.history} /> } />
-		    		<Route path='/inbox/:username'render={()=><Talk location={props.location} user={props.user} changeColor={changeColor} /> } />
-		    	</Switch>
+		    	<div className="pt-7">
+		    		<Switch>
+			    		<Route path="/inbox" exact render={()=><Messages user={props.user} updateUser={props.updateUser} history={props.history} changeColor={changeColor} /> } />
+			    		<Route path="/inbox/find" render={()=><Find changeColor={changeColor} user={props.user} history={props.history} /> } />
+			    		<Route path='/inbox/:id'render={()=><Talk location={props.location} user={props.user} changeColor={changeColor} /> } />
+			    	</Switch>
+		    	</div>
 		    </div>
 		)
 	}

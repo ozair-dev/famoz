@@ -1,10 +1,30 @@
 import React from 'react';
 import {Link} from 'react-router-dom'
 import ChatInfo from "./ChatInfo"
+import openSocket from 'socket.io-client'
 export default class Messages extends React.Component {
 
 	constructor(props) {
 		super(props);
+		
+		this.socket = openSocket("http://localhost:5000", {
+			withCredentials: true,
+		})
+		this.socket.on(this.props.user._id, data=>{
+			this.updateMessages(data)
+		})
+		this.socket.on("new group chat", data=>{
+			this.updateMessages(data)
+		})
+	}
+
+	updateMessages = (data)=>{
+		let user = {...this.props.user}
+		let {messages} = user
+		messages= messages.filter(doc=>doc._id!==data._id)
+		messages.push(data)
+		user.messages = messages
+		this.props.updateUser(user)
 	}
 
 	componentDidMount(){
@@ -12,8 +32,8 @@ export default class Messages extends React.Component {
 	}
 
 	render() {
-		let messages = this.props.user.messages?.reverse().map((user, ind)=><ChatInfo profile={user} history={this.props.history} key={ind} /> )
-		if(messages) {
+		let messages = this.props.user.messages?.filter(user=>user.username).reverse().map((user, ind)=><ChatInfo profile={user} history={this.props.history} key={ind} /> )
+		if(messages?.length) {
 			return (
 				<div className="mt-2">
 					{messages}

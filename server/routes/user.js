@@ -36,6 +36,7 @@ module.exports = (userDB)=>{
 			if(!formData[i]) return res.status(404).end();
 		}
 		let {name, username, password, img} = formData;
+		username = username.toLowerCase();
 		userDB.findOne({username: username}, (err, doc)=>{
 			if(err) return console.log(err);
 			if(doc) return res.status(400).end();
@@ -55,6 +56,7 @@ module.exports = (userDB)=>{
 			if(!formData[i]) return res.status(404).end();
 		}
 		let {name, username, password, img} = formData;
+		username = username.toLowerCase();
 		name+=" Group"
 		userDB.findOne({username: username}, (err, doc)=>{
 			if(err) return console.log(err);
@@ -78,9 +80,42 @@ module.exports = (userDB)=>{
 		})
 	})
 
+	router.post("/update", (req, res)=>{
+		let formData = req.body;
+		let {password, username, _id} = formData;
+		delete formData._id;
+		username = username.toLowerCase()
+		formData.username = username
+		if(password){
+			let hash = bcrypt.hashSync(password, 12)
+			formData.password = hash;
+		}
+		for(let i in formData){
+			if(!formData[i]) return res.status(400).end();
+		}
+		userDB.findOne({username: formData.username}, (err, data)=>{
+			if(err) return console.log(err);
+			if(data && String(data._id) !== _id) return res.status(400).end();
+			
+			userDB.findOneAndUpdate({_id: new ObjectID(_id)},{$set: formData}, {returnOriginal:false}, (err, doc)=>{
+				if(err) return console.log(err);
+				res.send(doc.value)
+			})
+		})
+	})
+
 	router.get("/logout", (req, res)=>{
 		if(req.user) req.logout();
 		res.status(200).end();
+	})
+
+	router.get("/auth/facebook", passport.authenticate('facebook'))
+	router.get("/auth/facebook/callback", passport.authenticate('facebook'), (req, res)=>{
+		res.redirect(process.env.ORIGIN)
+	})
+	router.get("/auth/google", passport.authenticate("google", {scope: ['profile']}))
+	router.get("/auth/google/callback", passport.authenticate('google'), (req, res)=>{
+		res.redirect(process.env.ORIGIN)
 	})
 	return router;
 }

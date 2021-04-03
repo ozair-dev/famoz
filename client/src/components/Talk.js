@@ -6,7 +6,7 @@ import {VscLoading} from 'react-icons/vsc'
 import openSocket from 'socket.io-client'
 import Chat from "./Chat"
 import axios from 'axios'
-
+// this component always stays on bottom of a div, helpful for scrolling to botton in Chat
 const AlwaysScrollToBottom = () => {
   const elementRef = useRef();
   useEffect(() => elementRef.current.scrollIntoView());
@@ -28,15 +28,14 @@ export default class Talk extends React.Component {
 			stayOnBottom: true,
 			showLoadMoreButton: false
 		}
-		// this.socket = openSocket("https://famoz.herokuapp.com", {
-		// 	withCredentials: true,
-		// })
-		this.socket = openSocket()
+		this.socket = openSocket("http://localhost:5000", {
+			withCredentials: true,
+		})
 		this.socket.on(this.chatName(), data=>this.addMessage(data))
 	}
 	chatName = ()=>{
 		let name;
-		if(this.props.location.state.talkTo.type=='person'){
+		if(this.props.location.state.talkTo.type==='person'){
 			name = [this.props.user._id,this.props.location.state.talkTo._id].sort();
 		}else{
 			name = [this.props.location.state.talkTo._id]
@@ -139,17 +138,17 @@ export default class Talk extends React.Component {
 				chat = chat.map((message, index)=><Chat key={index} message={message} user={this.props.user} />)
 			}
 			return (
-				<div style={{height: '86vh'}} >
-					<div onClick={()=>console.log(this.props.location.state.talkTo.name)} className="w-full flex items-center h-14 p-1 pt-2 cursor-pointer shadow-md bg-gray-100" >
+				<div style={{height: 'calc(100vh - 5rem)'}} className="flex flex-col justify-between pb-10" >
+					<div onClick={()=>console.log(this.props.location.state.talkTo.name)} className="fixed top-30 md:w-1/3 w-full flex items-center h-14 px-1 pt-2 cursor-pointer shadow-md bg-gray-100" >
 				    	<div className="w-2/12 h-full"	>
 				    		<img src={this.props.location.state.talkTo.img} alt={this.props.location.state.talkTo.name} className="h-full rounded-full" />
 				    	</div>
 				    	<div className="w-10/12 h-full flex flex-col justify-around">
-				    		<p className="leading-none font-mono font-bold text-xl text-gray-700">{this.props.location.state.talkTo.name}</p>
-				    		<p className="leading-none font-sans text-gray-600 text-lg">@{this.props.location.state.talkTo.username}</p>
+				    		<p className="leading-none font-mono font-bold text-xl text-gray-700 truncate">{this.props.location.state.talkTo.name}</p>
+				    		<p className="leading-none font-sans text-gray-600 text-lg truncate">@{this.props.location.state.talkTo.username}</p>
 				    	</div>
 				    </div>
-				    <div id="messages" style={{height: "calc(100% - 6.5rem)"}} className="overflow-y-auto w-full flex flex-col px-1">
+				    <div id="messages" className="overflow-y-auto w-full flex flex-col px-1 pt-16">
 				    	{this.state.showLoadMoreButton && (
 				    		<center>
 				    			<button onClick={this.showMore} className="px-2 text-purple-700 border-2 rounded font-bold border-purple-500 font-mono ">Show More </button>
@@ -160,15 +159,15 @@ export default class Talk extends React.Component {
 				    </div>
 				    <form onSubmit={this.handleSubmit} className="fixed md:w-1/3 bottom-0 flex justify-around w-full h-10 pb-0.5 bg-white">
 				    	{this.state.uploading?(
-				    		<VscLoading className="animate-spin w-10 cursor-wait h-full text-purple-500 bg-white" />
+				    		<VscLoading className="animate-spin w-10 cursor-wait h-full text-purple-500 bg-white rounded-full" />
 				    		):(
 				    		<label className='w-10 cursor-pointer'>
 					    		<input type='file' accept=".jpeg, .png, .jpg" onChange={this.handleUpload} className='hidden' />
 					    		<BiImageAdd className={`w-full p-1 h-full ${this.state.imgIcon} rounded-full`} />
 					    	</label>
 				    		)}
-				    	<input type='text' value={this.state.formData.type==='text'?this.state.formData.message:""} onChange={this.handleChange} className="w-9/12 border-2 rounded-full border-purple-600 py-2 px-2 text-gray-700" />
-				    	<button className='w-10' ><AiOutlineSend className="h-full p-1 w-full text-white text-xl bg-purple-600 rounded-full"  /></button>
+				    	<input type='text' value={this.state.formData.type==='text'?this.state.formData.message:""} onChange={this.handleChange} className="w-9/12 border-2 rounded-full border-purple-600 py-2 px-2 text-gray-700 focus:outline-none" />
+				    	<button className='w-10 focus:outline-none' ><AiOutlineSend className="h-full p-1 w-full text-white text-xl bg-purple-600 rounded-full"  /></button>
 				    </form>
 				</div>
 			);

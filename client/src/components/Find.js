@@ -38,7 +38,6 @@ export default class Find extends React.Component {
   		else{
   			axios.post("/user/find", {query})
   			.then(res=>{
-  				console.log(res.data)
   				this.setState({users: res.data, loading: false})
   			})
 			.catch(err=>this.setState({loading: false}))
@@ -46,12 +45,12 @@ export default class Find extends React.Component {
   	}
 
 	render() {
-		let users = this.state.users.map((user, index)=><ChatInfo history={this.props.history} key={index} profile={user} /> )
+		let users = this.state.users.filter(user=>user.username).map((user, index)=><ChatInfo history={this.props.history} key={index} profile={user} /> )
 		return (
 			<div className="flex flex-col w-full">
 				<form onSubmit={this.handleSubmit} className="mt-2 mb-4 flex items-center justify-around w-11/12">
 		    		<input onChange={this.handleChange} type='text' value={this.state.search} placeholder="Find people (e.g, @john)" className="w-9/12 py-1 px-4 focus:outline-none border-2 border-purple-500 rounded-full text-gray-500" />
-		    		<button className="rounded text-white text-center bg-purple-500 px-6 py-2 text-xl h-full rounded-full"><FiSearch /></button>
+		    		<button className="rounded text-white text-center bg-purple-500 px-6 py-2 text-xl h-full rounded-full focus:outline-none"><FiSearch /></button>
 		    	</form>
 		    	{this.state.loading? (
 		    		<center><IoIosPeople className="h-48 w-48 animate-pulse text-purple-600" /></center>

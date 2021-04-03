@@ -6,6 +6,7 @@ function main(cloudinary){
 		imgUrl.splice(6,1,"q_auto:low")
 		return imgUrl.join("/")
 	}
+	// to upload single pic, (profile pic)
 	router.post("/", (req, res)=>{
 		let image = req.files[0]
 		cloudinary.uploader

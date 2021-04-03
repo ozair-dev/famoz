@@ -1,40 +1,14 @@
 import React from 'react';
-import {Redirect} from 'react-router-dom'
+import {Redirect, Link} from 'react-router-dom'
 import axios from 'axios'
-import {HiOutlineCamera} from 'react-icons/hi'
-import {VscLoading} from 'react-icons/vsc'
 import {BiLoaderAlt} from 'react-icons/bi'
+import {AiOutlineEdit, AiFillMessage} from 'react-icons/ai'
 export default class Profile extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			newImg: "",
-			uploading: "",
 			loggingout: false
 		}
-	}
-
-	handleUpload = (e)=>{
-		this.setState({uploading: true})
-		let files = Array.from(e.target.files);
-		let formData = new FormData()
-		files.forEach((file, index)=>formData.append(index, file));
-		axios.post("/upload", formData)
-		.then(res=>this.setState({uploading: false, newImg: res.data}))
-		.catch(err=>this.setState({uploading: false}))
-	}
-
-	handleCancel = ()=>{
-		this.setState({newImg: ""})
-	}
-
-	changeDp = ()=>{
-		axios.post("/user/change-dp", {img: this.state.newImg})
-		.then(res=>{
-			this.props.updateUser(res.data);
-			this.setState({newImg: ""})
-		})
-		.catch(err=>console.log(err))
 	}
 
 	handleLogout = ()=>{
@@ -45,32 +19,21 @@ export default class Profile extends React.Component {
 	}
 
 	render() {
-		if(!this.props.user){
+		let user = this.props.location?.state?.user || this.props.user
+		if(!user){
 			return (<Redirect to='/login' />)
 		}
+
 		else{
 			return (
 				<div className='flex flex-col items-center'>
-					<div className="mt-6 w-48 border-2 border-purple-400 h-48 rounded-full">
-						<img src={this.state.newImg || this.props.user.img} alt={this.props.user.name} className="h-full w-full rounded-full" />
-						{!this.state.uploading? (
-							<label>
-							<input type="file" onChange={this.handleUpload} accept=".jpeg, .png, .jpg" className="hidden" />
-							<HiOutlineCamera className="cursor-pointer w-8 h-8 p-1 rounded-full bg-white bg-opacity-70 relative bottom-12 left-32" />
-						</label>
-						):(
-						<VscLoading className="animate-spin text-purple-500 cursor-wait w-8 h-8 p-1 rounded-full bg-white bg-opacity-70 relative bottom-12 left-32" />
-						)}
+					{(this.props.user && this.props.user._id===user._id) && <Link to="/edit-profile" className="self-end text-4xl mt-2 rounded text-gray-500 shadow bg-gray-100 mr-4"><AiOutlineEdit/></Link>}
+					<div className="w-48 mt-1 border-2 border-purple-400 h-48 rounded-full">
+						<img src={user.img} alt="" className="h-full w-full rounded-full" />
 					</div>
-					{this.state.newImg && (
-						<div className='flex justify-around w-full mb-4'>
-							<button onClick={this.handleCancel} className="border border-purple-700 rounded-md font-sans text-purple-500 px-2 text-xl">Cancel</button>
-							<button onClick={this.changeDp} className="rounded-md font-sans text-white px-2 bg-purple-600 text-xl">Save</button>
-						</div>
-						)}
-					<p className="text-center text-3xl font-mono mt-2">{this.props.user.name}</p>
-					<p className="text-center text-xl font-sans text-gray-500">@{this.props.user.username}</p>
-					<button  onClick={this.handleLogout} className="flex items-center rounded-full bg-purple-600 text-white py-1 px-6 mt-16 text-xl">Logout{this.state.loggingout && <BiLoaderAlt className="animate-spin ml-1" />}</button>
+					<p className="text-center text-3xl font-mono mt-2">{user.name}</p>
+					<p className="text-center text-xl font-sans text-gray-500">@{user.username}</p>
+					{ (this.props.user && this.props.user._id===user._id)? <button  onClick={this.handleLogout} className="flex items-center rounded-full bg-purple-600 text-white py-1 px-6 text-xl mt-16 focus:outline-none">Logout{this.state.loggingout && <BiLoaderAlt className="animate-spin ml-1" />}</button>: <Link to={{pathname: `/inbox/${user._id}`, state: {talkTo: user}}} className="flex items-center text-lg h-8 mt-6 px-2 bg-purple-600 text-white rounded" ><AiFillMessage className="mr-1 h-full w-6" /> Send Message</Link>}
 				</div>
 			);
 		}
