@@ -55,7 +55,7 @@ export default class EditProfile extends React.Component {
 		.then(res=>{
 			this.props.updateUser(res.data)
 			this.setState({saving: false})
-			this.props.history.goBack();
+			this.props.history.push("/");
 		})
 		.catch(err=>this.setState({warning: "Username is already taken!", saving: false}))
 		

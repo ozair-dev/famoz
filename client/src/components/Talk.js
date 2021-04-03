@@ -140,7 +140,7 @@ export default class Talk extends React.Component {
 			}
 			return (
 				<div style={{height: 'calc(100vh - 5rem)'}} className="flex flex-col justify-between pb-10" >
-					<div onClick={()=>console.log(this.props.location.state.talkTo.name)} className="fixed top-30 md:w-1/3 w-full flex items-center h-14 px-1 pt-2 cursor-pointer shadow-md bg-gray-100" >
+					<div onClick={()=>this.props.history.push({pathname: "/profile", state: {user: this.props.location.state.talkTo}})} className="fixed top-30 md:w-1/3 w-full flex items-center h-14 px-1 pt-2 cursor-pointer shadow-md bg-gray-100" >
 				    	<div className="w-2/12 h-full"	>
 				    		<img src={this.props.location.state.talkTo.img} alt={this.props.location.state.talkTo.name} className="h-full rounded-full" />
 				    	</div>

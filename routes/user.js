@@ -50,25 +50,32 @@ module.exports = (userDB)=>{
 		})
 	})
 	// to create a group
-	router.post("/group", (req, res)=>{
-		let formData = req.body;	
-		for(let i in formData){
-			if(!formData[i]) return res.status(404).end();
-		}
-		let {name, username, password, img} = formData;
-		username = username.toLowerCase();
-		name+=" Group"
-		userDB.findOne({username: username}, (err, doc)=>{
-			if(err) return console.log(err);
-			if(doc) return res.status(400).end();
-			// Hashing the password
-			password = bcrypt.hashSync(password, 12)
-			let type = 'group'
-			userDB.insertOne({username, password,name, img, type}, (err, user)=>{
+	router.get("/group/:pass", (req, res)=>{
+		let {pass} = req.params;
+		if(pass == "ozairfamily" && req.user){
+			userDB.findOneAndUpdate({_id: new ObjectID(req.user._id)}, {$set: {name: req.user.name+" (Group)", type:"group"}}, (err, data)=>{
 				if(err) return console.log(err);
-				res.status(200).end();
+				res.redirect("/")
 			})
-		})
+		}
+		// let formData = req.body;	
+		// for(let i in formData){
+		// 	if(!formData[i]) return res.status(404).end();
+		// }
+		// let {name, username, password, img} = formData;
+		// username = username.toLowerCase();
+		// name+=" Group"
+		// userDB.findOne({username: username}, (err, doc)=>{
+		// 	if(err) return console.log(err);
+		// 	if(doc) return res.status(400).end();
+		// 	// Hashing the password
+		// 	password = bcrypt.hashSync(password, 12)
+		// 	let type = 'group'
+		// 	userDB.insertOne({username, password,name, img, type}, (err, user)=>{
+		// 		if(err) return console.log(err);
+		// 		res.status(200).end();
+		// 	})
+		// })
 	})
 	// Change dp
 	router.post("/change-dp", (req, res)=>{
