@@ -21,6 +21,9 @@ export default class Messages extends React.Component {
 	updateMessages = (data)=>{
 		let user = {...this.props.user}
 		let {messages} = user
+		if(!messages){
+			messages = []
+		}
 		messages= messages.filter(doc=>doc._id!==data._id)
 		messages.push(data)
 		user.messages = messages
