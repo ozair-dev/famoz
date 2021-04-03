@@ -40,7 +40,6 @@ export default class Home extends React.Component {
 		axios.get(`/posts/${postIndex}`)
 		.then(res=>{
 			this.setState({posts: [...res.data, ...posts], postIndex: postIndex+10, showLoadMore: res.data.length===10})
-			console.log(this.state.posts)
 		})
 		.catch(err=>this.setState({showLoadMore: true}))
 	}
