@@ -20,7 +20,7 @@ const Chat = (props)=>{
 	}
 	return (
 		<div className="flex w-full mt-2 self-start">
-    		<img onClick={()=>props.history.push({pathname: "/profile", state: {user: user}}) } src={user.img} alt='' className="w-8 h-8 rounded-full self-end" />
+    		<img onClick={()=>props.history.push({pathname: "/profile", state: {user: user}}) } src={user.img} alt='' className="w-8 h-8 mr-0.5 rounded-full self-end" />
     		<div className="bg-white text-purple-700 rounded-t rounded-br border border-purple-600 shadow-md w-3/4 py-1">
 	    		{messages}
 	    		<p className="font-sans px-1 leading-none mt-1"></p>
