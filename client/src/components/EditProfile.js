@@ -34,7 +34,7 @@ export default class EditProfile extends React.Component {
 		this.setState({warning: "", showTip: false})
 		let {formData} = this.state;
 		if(e.target.value!==" "){
-			if(e.target.name==='username'){
+			if(e.target.name==='password'){
 				this.setState({showTip: true})
 			}
 			formData[e.target.name] = e.target.value;
