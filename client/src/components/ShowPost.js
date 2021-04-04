@@ -9,7 +9,8 @@ const Comment = (props)=>{
 	let handleClick = ()=>{
 		let com = {...com};
 		delete com.comment
-		props.history.push({pathname: "/profile", state: {user: com}})
+		console.log(com)
+		// props.history.push({pathname: "/profile", state: {user: com}})
 	}
 	return (
 		<div className="w-full border-b border-gray-300 flex bg-gray-50">
