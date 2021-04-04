@@ -8,7 +8,7 @@ const Comment = (props)=>{
 	let com = props.data
 	return (
 		<div className="w-full border-b border-gray-300 flex bg-gray-50">
-			<img onClick={()=>this.props.history.push({pathname: "/profile", state: {user: postData.by}})}  src={com.img} alt="" className="w-8 h-8 m-1 rounded-full" />
+			<img src={com.img} alt="" className="w-8 h-8 m-1 rounded-full" />
 			<div className="flex flex-col">
 				<p className="font-bold text-md w-full truncate">{com.name}</p>
 				<p className="leading-tight">{com.comment}</p>
@@ -106,7 +106,7 @@ export default class ShowPost extends React.Component {
 	render() {
 		let data = this.state;
 		let {postData} = this.state
-		let comments = postData.post?.comments.map((com, index)=><Comment key={index} history={this.props.history} data={com} />)
+		let comments = postData.post?.comments.map((com, index)=><Comment key={index} data={com} />)
 
 		if(!this.state.postData.post || (this.state.postData.post && !this.state.postData.post.showing && this.props.user?.username!=="ozair" )){
 			return <div></div>
