@@ -7,9 +7,10 @@ import openSocket from 'socket.io-client'
 const Comment = (props)=>{
 	let com = props.data
 	let handleClick = ()=>{
-		let com = {...com};
-		delete com.comment
-		console.log(com)
+	console.log('com', com)
+		let user = {...com};
+		delete user.comment
+		console.log("user", user)
 		// props.history.push({pathname: "/profile", state: {user: com}})
 	}
 	return (
