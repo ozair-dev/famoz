@@ -47,9 +47,11 @@ export default class EditProfile extends React.Component {
 			if(!formData[i]){
 				return this.setState({warning: `${i.slice(0,1).toUpperCase()+i.slice(1,)} field is required!`, saving: false})
 			}
-			if(formData[i].length<4){
+			if(formData[i].length<4 && formData[i]!=='username'){
 				return this.setState({warning: `${i.slice(0,1).toUpperCase()+i.slice(1,)} must be atleast 4 characters long!`, saving: false})
 			}
+			if(i==='username' && formData[i].length!==6) return this.setState({warning: "Username must be six characters long."});
+			if(i==='username' && formData[i].includes(" ")) return this.setState({warning: "Username can not include whitespaces."});
 		}
 		axios.post("/user/update", formData)
 		.then(res=>{
