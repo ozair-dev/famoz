@@ -44,7 +44,9 @@ export default class Signup extends React.Component {
 		let formData = this.state.formData;
 		for(let i in formData){
 			if(!formData[i]) return this.setState({warning: `${i.slice(0,1).toUpperCase()+i.slice(1,)} field is required!`});
-			if((i==='username'||i==='password') && formData[i].length<4) return this.setState({warning: `${i.slice(0,1).toUpperCase()+i.slice(1,)} must be atleast 4 characters long!`});
+			if(i==='password' && formData[i].length<4) return this.setState({warning: `${i.slice(0,1).toUpperCase()+i.slice(1,)} must be atleast 4 characters long!`});
+			if(i==='username' && formData[i].length!==6) return this.setState({warning: "Username must be six characters long."});
+			if(i==='username' && formData[i].includes(" ")) return this.setState({warning: "Username can not include whitespaces."});
 		}
 		this.setState({signingup: true})
 		axios.post('/user/signup', formData)

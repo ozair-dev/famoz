@@ -11,12 +11,13 @@ export default class EditProfile extends React.Component {
 			formData: {},
 			uploading: false,
 			warning: "",
-			saving: false
+			saving: false,
+			showTip: false
 		}
 	}
 
 	handleUpload = (e)=>{
-		this.setState({uploading: true})
+		this.setState({uploading: true, showTip: false})
 		let files = Array.from(e.target.files);
 		let formData = new FormData();
 		files.forEach((file, index)=>formData.append(index, file));
@@ -30,9 +31,12 @@ export default class EditProfile extends React.Component {
 	}
 
 	handleChange = (e)=>{
-		this.setState({warning: ""})
+		this.setState({warning: "", showTip: false})
 		let {formData} = this.state;
 		if(e.target.value!==" "){
+			if(e.target.name==='username'){
+				this.setState({showTip: true})
+			}
 			formData[e.target.name] = e.target.value;
 			this.setState({formData})
 		}
@@ -40,7 +44,7 @@ export default class EditProfile extends React.Component {
 
 	handleSubmit = (e)=>{
 		e.preventDefault();
-		this.setState({warning: "", saving: true})
+		this.setState({warning: "", saving: true, showTip: false})
 		let {formData} = this.state;
 		if(formData.password==="") delete formData.password
 		for (let i in formData){
@@ -50,8 +54,8 @@ export default class EditProfile extends React.Component {
 			if(formData[i].length<4 && formData[i]!=='username'){
 				return this.setState({warning: `${i.slice(0,1).toUpperCase()+i.slice(1,)} must be atleast 4 characters long!`, saving: false})
 			}
-			if(i==='username' && formData[i].length!==6) return this.setState({warning: "Username must be six characters long."});
-			if(i==='username' && formData[i].includes(" ")) return this.setState({warning: "Username can not include whitespaces."});
+			if(i==='username' && formData[i].length!==6) return this.setState({warning: "Username must be six characters long.", saving: false});
+			if(i==='username' && formData[i].includes(" ")) return this.setState({warning: "Username can not include whitespaces.", saving: false});
 		}
 		axios.post("/user/update", formData)
 		.then(res=>{
@@ -96,7 +100,7 @@ export default class EditProfile extends React.Component {
 					<input name="name" onChange={this.handleChange} value={this.state.formData.name} placeholder="Enter your name" className="border-b-2 border-purple-400 focus:border-purple-600 focus:outline-none px-2 py-1 text-purple-600 w-5/6 mt-4 placeholder-purple-400 focus:placeholder-purple-500" />
 					<input name="username" onChange={this.handleChange} value={this.state.formData.username} placeholder="Choose a username" className="border-b-2 border-purple-400 focus:border-purple-600 focus:outline-none px-2 py-1 text-purple-600 w-5/6 mt-4 placeholder-purple-400 focus:placeholder-purple-500" />
 					{!this.state.formData.id && <input name="password" type="password" title="Leave this field empty if you don't want to change your password" onChange={this.handleChange} placeholder="Change password" className="border-b-2 border-purple-400 focus:border-purple-600 focus:outline-none px-2 py-1 text-purple-600 w-5/6 mt-4 placeholder-purple-400 focus:placeholder-purple-500" />}
-					{!this.state.formData.id && <p className="text-blue-600 mt-1 w-5/6 text-center">Tip: You can leave the password field empty if you don't want to change the password.</p>}
+					{(!this.state.formData.id && this.state.showTip) && <p className="text-blue-600 mt-1 w-5/6 text-center">Tip: You can leave the password field empty if you don't want to change the password.</p>}
 					<p className="text-red-700 mt-1 w-5/6 text-center">{this.state.warning}</p>
 					<button disabled={this.state.uploading} className="flex items-center rounded-full bg-purple-600 text-white py-1 px-4 mt-2 text-xl disabled:cursor-wait focus:outline-none">Save{this.state.saving && <BiLoaderAlt className="animate-spin ml-2" />}</button>
 				</form>		
