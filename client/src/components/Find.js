@@ -45,7 +45,7 @@ export default class Find extends React.Component {
   	}
 
 	render() {
-		let users = this.state.users.filter(user=>user.username).map((user, index)=><ChatInfo history={this.props.history} key={index} profile={user} /> )
+		let users = this.state.users.filter(user=>user.username).reverse().map((user, index)=><ChatInfo history={this.props.history} key={index} profile={user} /> )
 		return (
 			<div className="flex flex-col w-full">
 				<form onSubmit={this.handleSubmit} className="mt-2 mb-4 flex items-center justify-around w-11/12">
