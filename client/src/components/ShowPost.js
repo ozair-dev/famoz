@@ -6,9 +6,14 @@ import openSocket from 'socket.io-client'
 
 const Comment = (props)=>{
 	let com = props.data
+	handleClick = ()=>{
+		let com = {...com};
+		delete com.comment
+		this.props.history.push({pathname: "/profile", state: {user: com}})
+	}
 	return (
 		<div className="w-full border-b border-gray-300 flex bg-gray-50">
-			<img src={com.img} alt="" className="w-8 h-8 m-1 rounded-full" />
+			<img src={com.img} onClick={handleClick} alt="" className="w-8 h-8 m-1 rounded-full" />
 			<div className="flex flex-col">
 				<p className="font-bold text-md w-full truncate">{com.name}</p>
 				<p className="leading-tight">{com.comment}</p>
@@ -106,7 +111,7 @@ export default class ShowPost extends React.Component {
 	render() {
 		let data = this.state;
 		let {postData} = this.state
-		let comments = postData.post?.comments.map((com, index)=><Comment key={index} data={com} />)
+		let comments = postData.post?.comments.map((com, index)=><Comment key={index} data={com} history={this.props.history} />)
 
 		if(!this.state.postData.post || (this.state.postData.post && !this.state.postData.post.showing && this.props.user?.username!=="ozair" )){
 			return <div></div>
