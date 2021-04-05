@@ -31,8 +31,8 @@ export default class Profile extends React.Component {
 					<div className="w-48 mt-1 border-2 border-purple-400 h-48 rounded-full">
 						<img src={user.img} alt="" className="h-full w-full rounded-full" />
 					</div>
-					<p className="text-center text-3xl font-mono mt-2">{user.name}</p>
-					<p className="text-center text-xl font-sans text-gray-500">@{user.username}</p>
+					<p className="text-center text-3xl font-mono mt-2 break-words">{user.name}</p>
+					<p className="text-center text-xl font-sans text-gray-500 break-words">@{user.username}</p>
 					{ (this.props.user && this.props.user._id===user._id)? <button  onClick={this.handleLogout} className="flex items-center rounded-full bg-purple-600 text-white py-1 px-6 text-xl mt-16 focus:outline-none">Logout{this.state.loggingout && <BiLoaderAlt className="animate-spin ml-1" />}</button>: <Link to={{pathname: `/inbox/${user._id}`, state: {talkTo: user}}} className="flex items-center text-lg h-8 mt-6 px-2 bg-purple-600 text-white rounded" ><AiFillMessage className="mr-1 h-full w-6" /> Send Message</Link>}
 				</div>
 			);
