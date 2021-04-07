@@ -103,13 +103,15 @@ export default class Talk extends React.Component {
   	handleSubmit = (e)=>{
   		e.preventDefault();
   		let {formData, messages} = this.state
+  		let sender = {...this.props.user}
+  		delete sender.messages
   		if(formData.image){
-  			this.socket.emit("message", {chatName: this.chatName(), sender: this.props.user, data: {message: formData.image, type:"img"}})
+  			this.socket.emit("message", {chatName: this.chatName(), sender, data: {message: formData.image, type:"img"}})
 	  		formData.image = ""
 	  		this.setState({formData})
   		}
   		if(formData.message){
-  			this.socket.emit("message", {chatName: this.chatName(), sender: this.props.user, data: {message: formData.message, type:"text"}})
+  			this.socket.emit("message", {chatName: this.chatName(), sender, data: {message: formData.message, type:"text"}})
 	  		formData.message = ""
 	  		this.setState({formData})
   		}
