@@ -35,8 +35,7 @@ export default class Login extends React.Component {
 		.post("/user", formData)
 		.then(res=>{
 			this.props.updateUser(res.data)
-			// this.props.history.push("https://ozfam.herokuapp.com");
-			window.location.replace("https://ozfam.herokuapp.com")
+			this.props.history.go(0)
 		})
 		.catch(err=>this.setState({warning: "Invalid username or password!", loggingin: false}))
 	}
