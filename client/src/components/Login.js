@@ -34,7 +34,6 @@ export default class Login extends React.Component {
 		axios
 		.post("/user", formData)
 		.then(res=>{
-			this.props.updateUser(res.data)
 			this.props.history.go(0)
 		})
 		.catch(err=>this.setState({warning: "Invalid username or password!", loggingin: false}))
