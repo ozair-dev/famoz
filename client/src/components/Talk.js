@@ -19,10 +19,11 @@ export default class Talk extends React.Component {
 		this.state = {
 			formData: {
 				message: "",
-				image: ""
+				type: "text"
 			},
 			messages: [],
 			uploading: false,
+			imgIcon: "bg-white border-2 border-purple-500 text-purple-700",
 			loadMessageIndex: 0,
 			stayOnBottom: true,
 			showLoadMoreButton: false
@@ -83,8 +84,10 @@ export default class Talk extends React.Component {
   		this.setState(({loadMessageIndex})=>({messages: messages, stayOnBottom: true, loadMessageIndex: loadMessageIndex+1}))
   	}
   	handleChange = (e)=>{
+  		this.setState({imgIcon: "bg-white border-2 border-purple-500 text-purple-700"})
   		let formData = this.state.formData;
   		formData.message = e.target.value===" "?"":e.target.value;
+  		formData.type = 'text'
   		this.setState({formData: formData})
   	}
   	handleUpload = (e)=>{
@@ -95,25 +98,20 @@ export default class Talk extends React.Component {
   		axios.post("/upload/many", formData)
   		.then(res=>{
   			let formData = this.state.formData;
-  			formData.image = res.data[0]
-  			this.setState({uploading: false, formData})
+  			formData.type = 'img'
+  			formData.message = res.data[0]
+  			this.setState({uploading: false, formData, imgIcon: "border-white bg-purple-500 text-white"})
   		})
   		.catch(err=>this.setState({uploading: false}))
   	}
   	handleSubmit = (e)=>{
   		e.preventDefault();
   		let {formData, messages} = this.state
-  		let sender = {...this.props.user}
-  		delete sender.messages
-  		if(formData.image){
-  			this.socket.emit("message", {chatName: this.chatName(), sender, data: {message: formData.image, type:"img"}})
-	  		formData.image = ""
-	  		this.setState({formData})
-  		}
   		if(formData.message){
-  			this.socket.emit("message", {chatName: this.chatName(), sender, data: {message: formData.message, type:"text"}})
+  			this.socket.emit("message", {chatName: this.chatName(), sender: this.props.user, data: this.state.formData})
+	  		formData.type = "text"
 	  		formData.message = ""
-	  		this.setState({formData})
+	  		this.setState({messages : messages, formData, imgIcon: "bg-white border-2 border-purple-500 text-purple-700"})
   		}
   	}
 
@@ -166,10 +164,10 @@ export default class Talk extends React.Component {
 				    		):(
 				    		<label className='w-10 cursor-pointer'>
 					    		<input type='file' accept=".jpeg, .png, .jpg" onChange={this.handleUpload} className='hidden' />
-					    		<BiImageAdd className={`w-full p-1 h-full ${this.state.formData.image?"bg-purple-500 text-white":"bg-white border-2 border-purple-500 text-purple-700"} rounded-full`} />
+					    		<BiImageAdd className={`w-full p-1 h-full ${this.state.imgIcon} rounded-full`} />
 					    	</label>
 				    		)}
-				    	<input type='text' value={this.state.formData.message} onChange={this.handleChange} className="w-9/12 border-2 rounded-full border-purple-600 py-2 px-2 text-gray-700 focus:outline-none" />
+				    	<input type='text' value={this.state.formData.type==='text'?this.state.formData.message:""} onChange={this.handleChange} className="w-9/12 border-2 rounded-full border-purple-600 py-2 px-2 text-gray-700 focus:outline-none" />
 				    	<button className='w-10 focus:outline-none' ><AiOutlineSend className="h-full p-1 w-full text-white text-xl bg-purple-600 rounded-full"  /></button>
 				    </form>
 				</div>

@@ -26,8 +26,6 @@ export default class Messages extends React.Component {
 		}
 		messages= messages.filter(doc=>doc._id!==data._id)
 		user.messages = [...messages, data]
-		console.log("props user", this.props.user)
-		console.log("user", user)
 		this.props.updateUser(user)
 	}
 
