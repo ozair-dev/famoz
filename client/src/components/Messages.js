@@ -25,7 +25,7 @@ export default class Messages extends React.Component {
 			messages = []
 		}
 		messages= messages.filter(doc=>doc._id!==data._id)
-		user.messages = messages.push(data)
+		user.messages = messages.concat([data])
 		this.props.updateUser(user)
 	}
 
