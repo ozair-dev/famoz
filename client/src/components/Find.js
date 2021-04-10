@@ -54,9 +54,9 @@ export default class Find extends React.Component {
 		    	</form>
 		    	{this.state.loading? (
 		    		<center><IoIosPeople className="h-48 w-48 animate-pulse text-purple-600" /></center>
-		    		):!this.state.users.length?(
+		    		):users.length? users: (
 		    		<p className="text-center text-purple-800 text-2xl font-mono">Your Search <b>{this.state.search}</b> Did Not Return Any Results!</p>
-		    		): users}
+		    		)}
 			</div>
 		);
 	}
