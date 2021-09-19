@@ -107,7 +107,7 @@ export default class Post extends React.Component {
 				</div>
 				<div className={`w-full pt-4 ${this.state.createPost?'':'hidden'} mb-2`} >
 					<form onSubmit={this.handleSubmit} className="w-full flex flex-col items-center ">
-						<textarea name="caption" onChange={this.handleChange} value={this.state.formData.caption} placeholder="Say something..." rows={3} autoFocus className="w-5/6 px-1 text-purple-800 border-2 border-purple-600 rounded-lg placeholder-gray-500 focus:outline-none" />
+						<textarea name="caption" autoFocus={true} onChange={this.handleChange} value={this.state.formData.caption} placeholder="Say something..." rows={3} autoFocus className="w-5/6 px-1 text-purple-800 border-2 border-purple-600 rounded-lg placeholder-gray-500 focus:outline-none" />
 						<label className="w-full mt-2">
 							<p className={`block mx-auto w-5/6 px-2 text-lg rounded ${this.state.uploadButtonStyle} flex items-center cursor-pointer`}>{this.state.uploading?(<VscLoading className="animate-spin mr-2" />):(<BiCamera className="h-full mr-2"/>)}{this.state.uploadButton}</p>
 							<input onChange={this.handleUpload} type='file' accept=".jpeg, .png, .jpg" multiple className="hidden"/>
